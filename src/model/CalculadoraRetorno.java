@@ -3,7 +3,7 @@ package model;
 public final class CalculadoraRetorno {
     private CalculadoraRetorno(){}
 
-    // Retorno esperado de la cartera en decimales (ej: 0.12 = 12%)
+    // Retorno esperado de la cartera en decimales 
     // w_i = monto_i / presupuesto
     public static double retornoCartera(Mercado m, Asignacion a, double presupuesto){
         int n = m.activos.size();

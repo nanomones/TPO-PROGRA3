@@ -1,7 +1,7 @@
 package heuristicas;
 
-import model.*;
 import java.util.*;
+import model.*;
 
 public final class SemillaFactible {
     private SemillaFactible(){}
@@ -14,7 +14,7 @@ public final class SemillaFactible {
     public static Asignacion construir(Mercado m, Perfil p){
         int n = m.activos.size();
 
-        // orden por score retorno/sigma (si sigma=0, usa retorno)
+        // orden por score retorno/sigma 
         List<Integer> ord = new ArrayList<>();
         for (int i=0;i<n;i++) ord.add(i);
         ord.sort((i,j)->{
@@ -32,7 +32,7 @@ public final class SemillaFactible {
         int distintos = 0;
         double topePorActivoAbs = p.maxPorActivo * p.presupuesto;
 
-        // 1) Agregar hasta 6 distintos (1× montoMin)
+       
         for (int k=0; k<ord.size() && distintos < 6; k++){
             Activo a = m.activos.get(ord.get(k));
             double unit = a.montoMin;
@@ -78,7 +78,7 @@ public final class SemillaFactible {
             sigma = CalculadoraRiesgo.riesgoCartera(m, seed, p.presupuesto);
         }
 
-        // revalida: si aún excede riesgo, no hay semilla factible que cumpla 3 mínimos
+        // revalida si aún excede riesgo, no hay semilla factible
         if (sigma - p.riesgoMax > 1e-9) {
             throw new IllegalArgumentException("No se pudo construir semilla factible dentro del riesgo máximo.");
         }

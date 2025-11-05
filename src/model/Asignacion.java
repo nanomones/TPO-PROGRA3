@@ -6,11 +6,11 @@ import java.util.Map;
 import java.util.Set;
 
 public final class Asignacion {
-    // Monto invertido por ticker (en la misma moneda que el presupuesto)
+    // Monto invertido por ticker 
     private final Map<String, Double> montoPorTicker;
 
     public Asignacion(Map<String, Double> montoPorTicker) {
-        // Normalizamos: sin nulls, sin negativos, en el mismo orden de inserción
+        
         LinkedHashMap<String, Double> tmp = new LinkedHashMap<>();
         for (Map.Entry<String, Double> e : montoPorTicker.entrySet()) {
             String t = e.getKey();

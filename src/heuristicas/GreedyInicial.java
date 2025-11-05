@@ -1,15 +1,13 @@
 package heuristicas;
 
-import model.*;
 import java.util.*;
+import model.*;
 
 public final class GreedyInicial {
     private GreedyInicial(){}
 
     /**
-     * Mejora la semilla: prioriza mayor retorno/sigma,
-     * respeta 3..6 activos distintos. Si ya hay 6, sólo aumenta montos
-     * en los que ya están (múltiplos del montoMin).
+     * Mejora la semilla: prioriza mayor retorno/sigma
      */
     public static Asignacion construir(Mercado m, Perfil p){
         // partimos de una semilla válida (3..6)
@@ -54,10 +52,10 @@ public final class GreedyInicial {
                 Activo a = m.activos.get(ord.get(k));
                 boolean yaEsta = asig.containsKey(a.ticker) && asig.get(a.ticker) > 0.0;
 
-                // Si NO está y ya tengo 6 distintos, no puedo agregar otro distinto
+                
                 if (!yaEsta && distintos >= 6) continue;
 
-                // siguiente incremento es 1× montoMin
+                
                 double delta = a.montoMin;
                 if (delta > presupuestoRest + 1e-9) continue;
 
@@ -80,26 +78,26 @@ public final class GreedyInicial {
                 Asignacion parcial = new Asignacion(asig);
                 double sigma = CalculadoraRiesgo.riesgoCartera(m, parcial, p.presupuesto);
                 if (sigma - p.riesgoMax > 1e-9) {
-                    // deshacer
+                    
                     asig.put(a.ticker, actual);
                     usoTipo.put(a.tipo, nuevoTipo - delta);
                     usoSector.put(a.sector, nuevoSector - delta);
                     continue;
                 }
 
-                // quedó aplicado
+                
                 presupuestoRest -= delta;
                 if (!yaEsta) distintos++;
                 progreso = true;
 
-                // si ya no hay presupuesto útil, corto
+                
                 if (presupuestoRest < 1e-6) break;
             }
         }
 
-        // asegurar 3..6 distintos
+        
         if (distintos < 3 || distintos > 6) {
-            // En caso rarísimo, volvamos a la base
+            
             return base;
         }
 

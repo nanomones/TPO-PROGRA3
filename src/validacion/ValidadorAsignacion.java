@@ -1,7 +1,7 @@
 package validacion;
 
-import model.*;
 import java.util.*;
+import model.*;
 
 public final class ValidadorAsignacion {
     private ValidadorAsignacion(){}
@@ -72,9 +72,9 @@ public final class ValidadorAsignacion {
             throw new IllegalArgumentException(String.format("Riesgo excedido: sigma %.3f > max %.3f", sigma, p.riesgoMax));
         }
 
-        // === NUEVAS VALIDACIONES (TPO) ===
+        
 
-        // 1) cantidad de activos entre 3 y 6
+        
         int cantidadActivos = 0;
         for (double monto : a.getMontos().values()) {
             if (monto > 0.0) cantidadActivos++;
@@ -83,7 +83,7 @@ public final class ValidadorAsignacion {
             throw new IllegalArgumentException("Cantidad de activos debe estar entre 3 y 6 (actual: " + cantidadActivos + ")");
         }
 
-        // 2) retorno mínimo exigido (perfil y cliente)
+        
         double retornoCartera = CalculadoraRetorno.retornoCartera(m, a, p.presupuesto);
         double retornoRequerido = Math.max(p.retornoMin, p.retornoMinDeseado);
         if (retornoCartera + 1e-12 < retornoRequerido) {

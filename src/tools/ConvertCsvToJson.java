@@ -5,13 +5,6 @@ import java.nio.file.*;
 import java.util.*;
 import com.google.gson.*;
 
-// Conversor CSV -> JSON para el TPO (activos + matriz de correlaciones)
-// Requisitos de CSV:
-//  - activos_financieros_60.csv: columnas (flexibles en nombre)
-//      ticker, tipo, sector, retorno, sigma, montoMin
-//    * retorno/sigma pueden venir como 0.12 o 12 o "12%": se normalizan a decimales
-//  - correlaciones_60.csv: matriz con encabezados y primera columna de tickers, cuadrada, simétrica (o casi)
-
 public class ConvertCsvToJson {
 
     // Ajustá las rutas si tus archivos están en otra carpeta:
@@ -61,7 +54,6 @@ private static final String RUTA_SALIDA  = "data/mercado.json";
                 activosOrdenados.add(a);
             }
 
-            // Ajustamos diagonal a 1.0 por seguridad
             for (int i = 0; i < corr.matriz.length; i++) corr.matriz[i][i] = 1.0;
 
             // Armamos JSON
@@ -136,7 +128,7 @@ private static Map<String,String> mapearColumnas(Set<String> cols) {
         else if (k.contains("montomin") || k.contains("monto_min") || k.contains("minimo") || k.contains("mínimo")
                  || k.contains("inversion_min") || k.equals("inversionminima"))
             m.putIfAbsent("montoMin", c);
-        // cualquier otra columna (2019..2023) se ignora
+        
     }
 
     List<String> req = List.of("ticker","tipo","sector","retorno","sigma","montoMin");
@@ -154,7 +146,7 @@ private static Map<String,String> mapearColumnas(Set<String> cols) {
         List<String> lines = Files.readAllLines(Path.of(ruta));
         if (lines.isEmpty()) throw new IllegalArgumentException("correlaciones CSV vacío");
 
-        // Parse simple: primera fila = encabezados (vacía + tickers), primera col de cada fila = ticker
+        
         String[] header = splitCsv(lines.get(0));
         List<String> tickers = new ArrayList<>();
         for (int i = 1; i < header.length; i++) tickers.add(header[i].trim());
@@ -181,7 +173,7 @@ private static Map<String,String> mapearColumnas(Set<String> cols) {
     }
 
     private static String[] splitCsv(String line) {
-        // CSV simple (sin comillas escapadas). Si tus archivos tienen comillas con comas, usá un parser más robusto.
+        
         return line.split(";", -1).length > 1 ? line.split(";", -1) : line.split(",", -1);
     }
 
