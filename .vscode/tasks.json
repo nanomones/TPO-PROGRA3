@@ -1,0 +1,15 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+        "label": "Compilar y ejecutar App",
+        "type": "shell",
+        "command": "rmdir /S /Q bin & mkdir bin & \"C:\\Program Files\\Java\\jdk-21\\bin\\javac.exe\" -cp \"src;lib\\gson-2.10.1.jar\" -d bin src\\App.java src\\io\\*.java src\\io\\dto\\*.java src\\model\\*.java src\\validacion\\*.java src\\heuristicas\\*.java src\\optimizacion\\*.java && \"C:\\Program Files\\Java\\jdk-21\\bin\\java.exe\" -cp \"bin;lib\\gson-2.10.1.jar\" App",
+        "problemMatcher": [],
+        "group": {
+            "kind": "build",
+            "isDefault": true
+        }
+    }
+]
+}

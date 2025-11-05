@@ -1,0 +1,9 @@
+{
+    "java.project.sourcePaths": [
+        "src"
+    ],
+    "java.project.referencedLibraries": [
+        "lib\\gson-2.10.1.jar",
+        "c:\\Users\\mones\\OneDrive\\Documentos\\GitHub\\TPO-PROGRA\\lib\\gson-2.10.1.jar"
+    ]
+}
